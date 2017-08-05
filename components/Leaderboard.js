@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, FlatList } from 'react-native';
+import { Text, StyleSheet, FlatList, Button } from 'react-native';
 import { getLeaderboard } from '../helpers/firebase';
 
 const log = s => {
@@ -10,7 +10,6 @@ const log = s => {
 export default class MyComponent extends Component {
   constructor() {
     super();
-
     this.state = {
       leaderboard: [],
     };
@@ -21,14 +20,22 @@ export default class MyComponent extends Component {
   }
 
   render() {
-    return <FlatList data={this.state.leaderboard} renderItem={Row} />;
+    const { navigate } = this.props;
+    return (
+      <FlatList
+        data={this.state.leaderboard}
+        renderItem={({ item }) => <Row navigate={navigate} {...item} />}
+      />
+    );
   }
 }
 
-const Row = ({ item: { name, score } }) =>
-  <Text style={styles.item}>
-    {name} - {score}
-  </Text>;
+const Row = ({ name, score, navigate, run }) =>
+  <Button
+    style={styles.item}
+    title={`${name} -  ${score}`}
+    onPress={() => navigate('run', { run })}
+  />;
 
 const styles = StyleSheet.create({
   item: {

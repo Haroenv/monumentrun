@@ -20,11 +20,22 @@ export default class Run extends Component {
   state = {
     history: [],
     venues: [],
+    currentSubscription: null,
   };
 
-  componentDidMount() {
-    const { run } = this.props;
-    this.subscribe(run);
+  async componentDidMount() {
+    const currentSubscription = await this.subscribe(this.props.run);
+    this.setState({ currentSubscription });
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.run !== this.props.run) {
+      if (this.state.currentSubscription !== null) {
+        ref.off('value', this.state.currentSubscription);
+      }
+      const currentSubscription = this.subscribe(newProps.run);
+      this.setState({ currentSubscription });
+    }
   }
 
   center() {
@@ -43,9 +54,11 @@ export default class Run extends Component {
   subscribe(id: string) {
     return ref.child(`runs/${id}/`).on('value', s => {
       const val = s.val();
+
+      console.log(val);
       this.setState(() => ({
         ...val,
-        history: val.history.map(toLatLng),
+        history: (val.history || []).map(toLatLng),
       }));
     });
   }
@@ -55,7 +68,7 @@ export default class Run extends Component {
   }
 
   render() {
-    const { history, venues } = this.state;
+    const { history = [], venues = [] } = this.state;
 
     return (
       <MapView

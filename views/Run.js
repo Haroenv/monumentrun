@@ -21,6 +21,7 @@ export default class RunView extends Component {
   };
 
   render() {
-    return <Run run={this.state.run} />;
+    const run = this.props.run ? this.props.run : this.state.run;
+    return <Run run={run} />;
   }
 }

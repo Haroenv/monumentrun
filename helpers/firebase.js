@@ -31,6 +31,7 @@ export const getLeaderboard = () =>
         const { score, name } = record.val();
         leaderboard.push({
           key: record.key,
+          run: record.key,
           score,
           name,
         });

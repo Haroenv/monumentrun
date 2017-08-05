@@ -1,15 +1,31 @@
 import React, { Component } from 'react';
-import { View, Platform } from 'react-native';
+import { View, Button } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 import StatusBar from './components/StatusBar';
 
 import { Run, Leaderboard, Help } from './views';
 
+const mapNavigationStateParamsToProps = ScreenComponent => {
+  return class extends Component {
+    static navigationOptions = ScreenComponent.navigationOptions;
+    render() {
+      const { params } = this.props.navigation.state;
+      return <ScreenComponent {...this.props} {...params} />;
+    }
+  };
+};
+
 const Tabs = TabNavigator({
-  run: { screen: Run },
+  run: { screen: mapNavigationStateParamsToProps(Run) },
   leaderboard: { screen: Leaderboard },
   help: { screen: Help },
-  user: { screen: () => <View /> },
+  user: {
+    screen: ({ navigation }) =>
+      <Button
+        title="start running 😏"
+        onPress={() => navigation.navigate('run')}
+      />,
+  },
 });
 
 export default class App extends Component {

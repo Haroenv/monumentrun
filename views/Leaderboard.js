@@ -15,6 +15,7 @@ export default class LeaderboardView extends Component {
   };
 
   render() {
-    return <Leaderboard />;
+    const { navigate } = this.props.navigation;
+    return <Leaderboard navigate={navigate} />;
   }
 }
