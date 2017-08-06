@@ -7,7 +7,7 @@ const log = s => {
   return s;
 };
 
-export default class MyComponent extends Component {
+export default class LeaderboardViews extends Component {
   constructor() {
     super();
     this.state = {
