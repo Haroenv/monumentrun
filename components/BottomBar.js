@@ -80,7 +80,7 @@ export default class Bottom extends Component {
       const user = await getUser();
       this.setState({ user });
     } catch (e) {
-      console.warn(e);
+      // please log in 🙅
     }
   }
 

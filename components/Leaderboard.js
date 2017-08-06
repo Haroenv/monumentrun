@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Button, View, Text } from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  View,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import { getLeaderboard } from '../helpers/firebase';
 
 type Run = {
@@ -10,16 +16,19 @@ type Run = {
 };
 
 class TopScore extends Component {
-  props: { ...Run, navigate: Function };
+  props: {
+    navigate: Function,
+    ...Run,
+  };
 
   render() {
-    const { run, name, score, position } = this.props;
+    const { run, name, score, position, navigate } = this.props;
     return (
-      <View>
+      <TouchableOpacity onPress={() => navigate('SingleRun', { run, name })}>
         <Text>
           {position} {score} {name}
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -47,7 +56,7 @@ export default class LeaderboardViews extends Component {
 
     return (
       <View>
-        <View>
+        <View style={{ flexDirection: 'row' }}>
           {topScores.map(({ run, name, score, position }) =>
             <TopScore
               key={run}
@@ -84,13 +93,11 @@ class Row extends Component {
   render() {
     const { name, score, navigate, run, position } = this.props;
     return (
-      <View>
-        <Button
-          style={styles.item}
-          title={`${position}: ${name} -  ${score}`}
-          onPress={() => navigate('SingleRun', { run, name })}
-        />
-      </View>
+      <TouchableOpacity onPress={() => navigate('SingleRun', { run, name })}>
+        <Text style={styles.item}>
+          {position}: {name} - {score}
+        </Text>
+      </TouchableOpacity>
     );
   }
 }

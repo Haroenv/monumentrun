@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 
 import { mapNavigationStateParamsToProps } from './helpers/navigation';
@@ -32,7 +32,9 @@ export default class App extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
+        {Platform.OS === 'android'
+          ? <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
+          : null}
         <Tabs />
       </View>
     );
