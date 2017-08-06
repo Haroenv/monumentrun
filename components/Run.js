@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { MapView } from 'expo';
 import { ref } from '../helpers/firebase';
+import { customMapStyle } from '../helpers/map';
 
 const toLatLng = stop => ({ longitude: stop[0], latitude: stop[1] });
 
@@ -87,14 +88,12 @@ export default class Run extends Component {
 
   render() {
     const { history = [], venues = [] } = this.state;
-
+    const { style } = this.props;
     return (
       <MapView
-        style={{
-          width: '100%',
-          height: '100%',
-        }}
+        style={{ flex: 1, ...style }}
         {...getCenter({ history, venues })}
+        customMapStyle={customMapStyle}
       >
         <MapView.Polyline
           coordinates={history}

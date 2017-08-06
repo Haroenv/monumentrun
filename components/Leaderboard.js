@@ -34,7 +34,10 @@ const Row = ({ name, score, navigate, run }) =>
   <Button
     style={styles.item}
     title={`${name} -  ${score}`}
-    onPress={() => navigate('run', { run })}
+    onPress={() => {
+      console.log(navigate);
+      navigate('SingleRun', { run, name });
+    }}
   />;
 
 const styles = StyleSheet.create({
