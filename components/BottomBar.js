@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, ScrollView } from 'react-native';
 import { getUser } from '../helpers/auth';
 import LocationProvider from './LocationProvider';
 
@@ -20,13 +20,16 @@ const Timer = () =>
 const notLoggedIn = StyleSheet.create({
   text: {
     textAlign: 'center',
-    padding: 3,
+    padding: 6,
+    fontSize: 18,
   },
 });
 
 const NotLoggedIn = ({ navigate }) =>
   <View>
-    <Text style={notLoggedIn.text}>You're not logged in, please do so</Text>
+    <Text style={notLoggedIn.text}>
+      You are not logged in, please log in before running
+    </Text>
     <Button title="login" onPress={() => navigate('user')} />
   </View>;
 
