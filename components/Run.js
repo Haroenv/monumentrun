@@ -7,15 +7,6 @@ import { ref } from '../helpers/firebase';
 import { customMapStyle } from '../helpers/map';
 import { toLatLng, getCenter } from '../helpers/location';
 
-const Callout = ({ name }) =>
-  <MapView.Callout tooltip>
-    <View style={{ backgroundColor: 'white', padding: 5, borderRadius: 2 }}>
-      <Text style={{ fontSize: 20 }}>
-        {name}
-      </Text>
-    </View>
-  </MapView.Callout>;
-
 export default class Run extends Component {
   state = {
     history: [],
@@ -39,6 +30,9 @@ export default class Run extends Component {
   }
 
   subscribe(id: string) {
+    if (!id) {
+      return;
+    }
     return ref.child(`runs/${id}/`).on('value', s => {
       const val = s.val();
       const history = 'history' in val ? val.history : [];
@@ -55,12 +49,15 @@ export default class Run extends Component {
 
   render() {
     const { history = [], venues = [] } = this.state;
-    const { style } = this.props;
+    const { style, here } = this.props;
     return (
       <MapView
         style={{ flex: 1, ...style }}
-        {...getCenter({ history, venues })}
+        {...getCenter({ history, venues, here })}
         customMapStyle={customMapStyle}
+        showsUserLocation={true}
+        userLocationAnnotationTitle={'Running here'}
+        showsPointsOfInterest={false}
       >
         <MapView.Polyline
           coordinates={history}
@@ -69,21 +66,22 @@ export default class Run extends Component {
           miterLimit={5}
         />
         {venues.map(
-          ({ name, location: { lat: latitude, lng: longitude } }, index) =>
+          ({
+            name,
+            location: { lat: latitude, lng: longitude },
+            score,
+            id,
+            categories: [{ shortName: category }],
+          }) =>
             <MapView.Marker
-              key={index}
-              text={name}
+              key={id}
+              title={name}
+              description={`${category} - ${score} points`}
               coordinate={{
                 latitude,
                 longitude,
               }}
-              onPress={() => this.onMarkerPressed(`marker + ${index}`)}
-              ref={c => {
-                this[`marker + ${index}`] = c;
-              }}
-            >
-              <Callout name={name} />
-            </MapView.Marker>
+            />
         )}
       </MapView>
     );
