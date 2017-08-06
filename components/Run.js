@@ -16,6 +16,34 @@ const Callout = ({ name }) =>
     </View>
   </MapView.Callout>;
 
+function getCenter({ here, venues, history }) {
+  function getLatLng({ here, venues, history }) {
+    if (here) {
+      return;
+      here;
+    }
+    if (venues.length > 0) {
+      return {
+        longitude: venues[0].location.lng,
+        latitude: venues[0].location.lat,
+      };
+    }
+    if (history && history.length > 0) {
+      return {
+        ...history[0],
+      };
+    }
+    return {};
+  }
+  return {
+    region: {
+      ...getLatLng({ here, venues, history }),
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    },
+  };
+}
+
 export default class Run extends Component {
   state = {
     history: [],
@@ -38,27 +66,13 @@ export default class Run extends Component {
     }
   }
 
-  center() {
-    if (this.state.history.length === 0) {
-      return {};
-    }
-    return {
-      region: {
-        ...this.state.history[0],
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      },
-    };
-  }
-
   subscribe(id: string) {
     return ref.child(`runs/${id}/`).on('value', s => {
       const val = s.val();
-
-      console.log(val);
+      const history = 'history' in val ? val.history : [];
       this.setState(() => ({
         ...val,
-        history: (val.history || []).map(toLatLng),
+        history: history.map(toLatLng),
       }));
     });
   }
@@ -76,7 +90,7 @@ export default class Run extends Component {
           width: '100%',
           height: '100%',
         }}
-        {...this.center()}
+        {...getCenter({ history, venues })}
       >
         <MapView.Polyline
           coordinates={history}
