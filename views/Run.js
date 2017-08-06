@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
+import { View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Run from '../components/Run';
@@ -22,6 +23,13 @@ export default class RunView extends Component {
 
   render() {
     const { run } = this.props;
-    return <Run run={run} />;
+    return (
+      <View style={{ flex: 1 }}>
+        <Run run={run} />
+        <View>
+          <Text>Yo, I'm the bottom</Text>
+        </View>
+      </View>
+    );
   }
 }
