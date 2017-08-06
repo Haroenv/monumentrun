@@ -4,7 +4,6 @@ import { TabNavigator } from 'react-navigation';
 
 import { mapNavigationStateParamsToProps } from './helpers/navigation';
 import { Run, Leaderboard, Help, User } from './views';
-
 import StatusBar from './components/StatusBar';
 
 const Tabs = TabNavigator(
@@ -17,13 +16,13 @@ const Tabs = TabNavigator(
   {
     tabBarPosition: 'bottom',
     tabBarOptions: {
-      activeTintColor: '#C95442',
+      activeTintColor: '#b1473f',
       inactiveTintColor: 'grey',
       style: {
         backgroundColor: 'white',
       },
       indicatorStyle: {
-        backgroundColor: '#C95442',
+        backgroundColor: '#b1473f',
       },
     },
   }
