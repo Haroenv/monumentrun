@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';

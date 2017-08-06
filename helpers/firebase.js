@@ -36,4 +36,5 @@ export const getLeaderboard = () =>
       return leaderboard;
     })
     .then(s => s.filter(item => item.score > 0))
-    .then(s => s.reverse());
+    .then(s => s.reverse())
+    .then(s => s.map((v, i) => ({ position: i + 1, ...v })));

@@ -1,36 +1,72 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, FlatList, Button } from 'react-native';
+import { StyleSheet, FlatList, Button, View, Text } from 'react-native';
 import { getLeaderboard } from '../helpers/firebase';
 
-export default class LeaderboardViews extends Component {
-  constructor() {
-    super();
-    this.state = {
-      leaderboard: [],
-    };
-  }
+type Run = {
+  run: string,
+  name: string,
+  score: number,
+  position: number,
+};
 
-  async componentDidMount() {
-    getLeaderboard().then(leaderboard => this.setState({ leaderboard }));
-  }
+class TopScore extends Component {
+  props: { ...Run, navigate: Function };
 
   render() {
-    const { navigate } = this.props;
+    const { run, name, score, position } = this.props;
     return (
-      <FlatList
-        data={this.state.leaderboard}
-        renderItem={({ item }) => <Row navigate={navigate} {...item} />}
-      />
+      <View>
+        <Text>
+          {position} {score} {name}
+        </Text>
+      </View>
     );
   }
 }
 
-const Row = ({ name, score, navigate, run }) =>
-  <Button
-    style={styles.item}
-    title={`${name} -  ${score}`}
-    onPress={() => navigate('SingleRun', { run, name })}
-  />;
+export default class LeaderboardViews extends Component {
+  state = {
+    leaderboard: [],
+  };
+  state: {
+    leaderboard: Run[],
+  };
+  props: {
+    navigate: Function,
+  };
+
+  async componentDidMount() {
+    const leaderboard = await getLeaderboard();
+    this.setState({ leaderboard });
+  }
+
+  render() {
+    const { navigate } = this.props;
+    const topScores: Run[] = this.state.leaderboard.slice(0, 3);
+    const restOfTheLeaderboard: Run[] = this.state.leaderboard.slice(3);
+
+    return (
+      <View>
+        <View>
+          {topScores.map(({ run, name, score, position }) =>
+            <TopScore
+              key={run}
+              run={run}
+              name={name}
+              score={score}
+              navigate={navigate}
+              position={position}
+            />
+          )}
+        </View>
+        <FlatList
+          data={restOfTheLeaderboard}
+          renderItem={({ item }) => <Row navigate={navigate} {...item} />}
+        />
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   item: {
@@ -39,3 +75,22 @@ const styles = StyleSheet.create({
     height: 44,
   },
 });
+
+class Row extends Component {
+  props: {
+    navigate: Function,
+    ...Run,
+  };
+  render() {
+    const { name, score, navigate, run, position } = this.props;
+    return (
+      <View>
+        <Button
+          style={styles.item}
+          title={`${position}: ${name} -  ${score}`}
+          onPress={() => navigate('SingleRun', { run, name })}
+        />
+      </View>
+    );
+  }
+}
