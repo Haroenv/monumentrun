@@ -33,11 +33,15 @@ function getCenter({ here, venues, history }) {
         ...history[0],
       };
     }
+    return null;
+  }
+  const latLng = getLatLng({ here, venues, history });
+  if (latLng === null) {
     return {};
   }
   return {
     region: {
-      ...getLatLng({ here, venues, history }),
+      ...latLng,
       latitudeDelta: 0.01,
       longitudeDelta: 0.01,
     },
