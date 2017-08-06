@@ -3,7 +3,7 @@ import { View, Button } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 import StatusBar from './components/StatusBar';
 
-import { Run, Leaderboard, Help } from './views';
+import { Run, Leaderboard, Help, User } from './views';
 
 const mapNavigationStateParamsToProps = ScreenComponent => {
   return class extends Component {
@@ -19,13 +19,7 @@ const Tabs = TabNavigator({
   run: { screen: mapNavigationStateParamsToProps(Run) },
   leaderboard: { screen: Leaderboard },
   help: { screen: Help },
-  user: {
-    screen: ({ navigation }) =>
-      <Button
-        title="start running 😏"
-        onPress={() => navigation.navigate('run')}
-      />,
-  },
+  user: { screen: User },
 });
 
 export default class App extends Component {
