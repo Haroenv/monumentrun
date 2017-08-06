@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { mapNavigationStateParamsToProps } from '../helpers/navigation';
 import Leaderboard from '../components/Leaderboard';
 import SingleRun from '../components/SingleRun';
+import StatusBar from '../components/StatusBar';
 
 class LeaderboardView extends Component {
   render() {

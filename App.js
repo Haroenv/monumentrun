@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { View, Button } from 'react-native';
 import { TabNavigator } from 'react-navigation';
+
 import { mapNavigationStateParamsToProps } from './helpers/navigation';
 import { Run, Leaderboard, Help, User } from './views';
+
+import StatusBar from './components/StatusBar';
 
 const Tabs = TabNavigator(
   {
@@ -11,13 +14,26 @@ const Tabs = TabNavigator(
     help: { screen: Help },
     user: { screen: User },
   },
-  { tabBarPosition: 'bottom' }
+  {
+    tabBarPosition: 'bottom',
+    tabBarOptions: {
+      activeTintColor: '#C95442',
+      inactiveTintColor: 'grey',
+      style: {
+        backgroundColor: 'white',
+      },
+      indicatorStyle: {
+        backgroundColor: '#C95442',
+      },
+    },
+  }
 );
 
 export default class App extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
         <Tabs />
       </View>
     );
