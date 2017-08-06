@@ -65,7 +65,7 @@ export default class Run extends Component {
         <MapView.Polyline
           coordinates={history}
           strokeWidth={5}
-          strokeColor={'red'}
+          strokeColor={'#b1473f'}
           miterLimit={5}
         />
         {venues.map(

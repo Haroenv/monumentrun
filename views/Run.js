@@ -5,6 +5,7 @@ import { View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Run from '../components/Run';
+import BottomBar from '../components/BottomBar';
 
 export default class RunView extends Component {
   static defaultProps = {
@@ -26,9 +27,7 @@ export default class RunView extends Component {
     return (
       <View style={{ flex: 1 }}>
         <Run run={run} />
-        <View>
-          <Text>Yo, I'm the bottom</Text>
-        </View>
+        <BottomBar />
       </View>
     );
   }
