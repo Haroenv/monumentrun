@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button } from 'react-native';
+import { View } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 
 import { mapNavigationStateParamsToProps } from './helpers/navigation';

@@ -1,20 +1,28 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Run from '../components/Run';
 import BottomBar from '../components/BottomBar';
+import type { TabBar } from '../types';
 
 export default class RunView extends Component {
   static defaultProps = {
     run: '-KnZ1p-Vm6LzDoMnUj-t',
   };
 
+  props: {
+    run: string,
+    navigation: {
+      navigate: Function,
+    },
+  };
+
   static navigationOptions = {
     tabBarLabel: 'Run',
-    tabBarIcon: ({ tintColor, focused }) =>
+    tabBarIcon: ({ tintColor, focused }: TabBar) =>
       <Ionicons
         name={focused ? 'ios-flag' : 'ios-flag-outline'}
         size={32}
