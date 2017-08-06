@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "19.0.0"
+    "name": "Monument Run",
+    "icon": "./assets/app-icon.png",
+    "version": "1.0.0",
+    "slug": "monumentrun",
+    "sdkVersion": "19.0.0",
+    "ios": {
+      "bundleIdentifier": "org.monumentrun.app"
+    },
+    "android": {
+      "package": "org.monumentrun.app"
+    }
   }
 }
