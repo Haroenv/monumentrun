@@ -25,48 +25,67 @@ const notLoggedIn = StyleSheet.create({
   },
 });
 
-const NotLoggedIn = ({ navigate }) =>
-  <View>
-    <Text style={notLoggedIn.text}>
-      You are not logged in, please log in before running
-    </Text>
-    <Button title="login" onPress={() => navigate('user')} />
-  </View>;
+class NotLoggedIn extends Component {
+  props: {
+    navigate: Function,
+  };
 
-const Bar = props =>
-  <View>
-    <Text>
-      {16}p
-    </Text>
-    <Text>
-      {'Saint-Jacques Tower (Tour Saint-Jacques)'}
-    </Text>
-    <Text>
-      {52}m away
-    </Text>
-    <Text>Historic Site</Text>
-    <Text>
-      {0} monuments visited
-    </Text>
-    <Timer />
-  </View>;
+  render() {
+    const { navigate } = this.props;
+    return (
+      <View>
+        <Text style={notLoggedIn.text}>
+          You are not logged in, please log in before running
+        </Text>
+        <Button title="login" onPress={() => navigate('user')} />
+      </View>
+    );
+  }
+}
+
+class Bar extends Component {
+  render() {
+    return (
+      <View>
+        <Text>
+          {16}p
+        </Text>
+        <Text>
+          {'Saint-Jacques Tower (Tour Saint-Jacques)'}
+        </Text>
+        <Text>
+          {52}m away
+        </Text>
+        <Text>Historic Site</Text>
+        <Text>
+          {0} monuments visited
+        </Text>
+        <Timer />
+      </View>
+    );
+  }
+}
 
 export default class Bottom extends Component {
   state = {
     user: null,
   };
 
+  props: {
+    navigate: Function,
+  };
+
   async componentDidMount() {
-    // try {
-    //   const user = await getUser();
-    //   this.setState({ user });
-    // } catch (e) {
-    //   console.warn(e);
-    // }
+    try {
+      const user = await getUser();
+      this.setState({ user });
+    } catch (e) {
+      console.warn(e);
+    }
   }
 
   render() {
-    const { visited = [], closest, navigate } = this.props;
+    const { navigate } = this.props;
     const { user } = this.state;
     return (
       <LocationProvider

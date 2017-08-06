@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import { View, Button } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -13,6 +15,9 @@ export default class UserView extends Component {
         style={{ color: tintColor }}
       />,
   };
+  props: {
+    navigation: any,
+  };
 
   render() {
     const { navigate } = this.props.navigation;
@@ -20,15 +25,7 @@ export default class UserView extends Component {
       <View>
         <Button title="start running 😏" onPress={() => navigate('run')} />
         <Button
-          onPress={() => {
-            console.warn('pressed login');
-
-            try {
-              loginWithFacebook();
-            } catch (e) {
-              console.warn(e);
-            }
-          }}
+          onPress={() => loginWithFacebook()}
           title="log in with facebook"
         />
       </View>

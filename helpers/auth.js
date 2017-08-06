@@ -1,10 +1,22 @@
-import { auth } from './firebase';
+import { auth, ref } from './firebase';
 import { Facebook } from 'expo';
+
+const updateUserData = user => {
+  const userData = user.providerData[0];
+  ref
+    .child(`users/${user.uid}`)
+    .once('value')
+    .then(sn => sn.val())
+    .then(snapshot =>
+      ref.child(`users/${user.uid}`).set({ ...snapshot, ...userData })
+    );
+};
 
 export const getUser = () =>
   new Promise((resolve, reject) =>
     auth().onAuthStateChanged(user => {
-      if (user != null) {
+      if (user !== null) {
+        updateUserData(user);
         return resolve(user);
       }
       reject();
