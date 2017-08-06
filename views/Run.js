@@ -24,10 +24,12 @@ export default class RunView extends Component {
 
   render() {
     const { run } = this.props;
+    const { navigate } = this.props.navigation;
+
     return (
       <View style={{ flex: 1 }}>
         <Run run={run} />
-        <BottomBar />
+        <BottomBar navigate={navigate} />
       </View>
     );
   }

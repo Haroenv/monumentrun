@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-
 const config = {
   apiKey: 'AIzaSyA6vOOiI1nl6gmtFuIPlCUZiZMTC_XUGBo',
   authDomain: 'monumentrun-1cc39.firebaseapp.com',
@@ -12,9 +11,7 @@ const config = {
 firebase.initializeApp(config);
 
 export const ref = firebase.database().ref();
-export const firebaseAuth = firebase.auth;
-export const googleAuthProvider = new firebaseAuth.GoogleAuthProvider();
-export const githubAuthProvider = new firebaseAuth.GithubAuthProvider();
+export const auth = firebase.auth;
 
 export const firebaseImages = ({ run, venue }) =>
   firebase.storage().ref().child(`images/${run}/${venue}`);

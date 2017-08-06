@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import { Text, StyleSheet, FlatList, Button } from 'react-native';
 import { getLeaderboard } from '../helpers/firebase';
 
-const log = s => {
-  console.log(s);
-  return s;
-};
-
 export default class LeaderboardViews extends Component {
   constructor() {
     super();
@@ -34,10 +29,7 @@ const Row = ({ name, score, navigate, run }) =>
   <Button
     style={styles.item}
     title={`${name} -  ${score}`}
-    onPress={() => {
-      console.log(navigate);
-      navigate('SingleRun', { run, name });
-    }}
+    onPress={() => navigate('SingleRun', { run, name })}
   />;
 
 const styles = StyleSheet.create({

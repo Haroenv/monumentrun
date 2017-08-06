@@ -39,7 +39,6 @@ export default class App extends Component {
 
   render() {
     const { render } = this.props;
-    console.log(navigator.geolocation);
     return render(this.state);
   }
 }

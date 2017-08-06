@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "slug": "monumentrun",
     "sdkVersion": "19.0.0",
+    "facebookScheme": "fb248515692334443",
     "ios": {
       "bundleIdentifier": "org.monumentrun.app"
     },

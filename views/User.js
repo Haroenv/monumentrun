@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Button } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import { loginWithFacebook } from '../helpers/auth';
 export default class UserView extends Component {
   static navigationOptions = {
     tabBarLabel: 'User',
@@ -19,6 +19,18 @@ export default class UserView extends Component {
     return (
       <View>
         <Button title="start running 😏" onPress={() => navigate('run')} />
+        <Button
+          onPress={() => {
+            console.warn('pressed login');
+
+            try {
+              loginWithFacebook();
+            } catch (e) {
+              console.warn(e);
+            }
+          }}
+          title="log in with facebook"
+        />
       </View>
     );
   }
