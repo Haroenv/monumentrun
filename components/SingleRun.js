@@ -9,6 +9,9 @@ import { toLatLng } from '../helpers/location';
 import Run from './Run';
 
 export default class SingleRun extends Component {
+  props: {
+    run: string,
+  };
   state = {
     history: [],
     venues: [],
@@ -20,7 +23,7 @@ export default class SingleRun extends Component {
     this.setState({ currentSubscription });
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: { run: string }) {
     if (newProps.run !== this.props.run) {
       if (this.state.currentSubscription !== null) {
         ref.off('value', this.state.currentSubscription);

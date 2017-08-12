@@ -5,12 +5,18 @@ import { MapView } from 'expo';
 import { ref } from '../helpers/firebase';
 import { customMapStyle } from '../helpers/map';
 import { toLatLng, getCenter } from '../helpers/location';
+import type { LatLng } from '../helpers/location';
 
 export default class Run extends Component {
   props: {
     run: string,
-    style: Object,
-    here: any,
+    style?: Object,
+    here?: LatLng,
+  };
+  state: {
+    history: Array<LatLng>,
+    venues: Array<Object>,
+    currentSubscription: null | any,
   };
   state = {
     history: [],
@@ -23,7 +29,7 @@ export default class Run extends Component {
     this.setState({ currentSubscription });
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: { run: string }) {
     if (newProps.run !== this.props.run) {
       if (this.state.currentSubscription !== null) {
         ref.off('value', this.state.currentSubscription);
@@ -45,10 +51,6 @@ export default class Run extends Component {
         history: history.map(toLatLng),
       }));
     });
-  }
-
-  onMarkerPressed(marker) {
-    this[marker].showCallout();
   }
 
   render() {

@@ -1,4 +1,4 @@
-type LatLng = { longitude: number, latitude: number };
+export type LatLng = { longitude: number, latitude: number };
 type MaybeLatLng = LatLng | null;
 
 export const toLatLng = (stop: [number, number]) => ({
