@@ -25,12 +25,13 @@ export const getLeaderboard = () =>
     .then(snapshot => {
       const leaderboard = [];
       snapshot.forEach(record => {
-        const { score, name } = record.val();
+        const { score, name, uid } = record.val();
         leaderboard.push({
           key: record.key,
           run: record.key,
           score,
           name,
+          uid,
         });
       });
       return leaderboard;
@@ -38,3 +39,10 @@ export const getLeaderboard = () =>
     .then(s => s.filter(item => item.score > 0))
     .then(s => s.reverse())
     .then(s => s.map((v, i) => ({ position: i + 1, ...v })));
+
+export const getUserPicture = (uid: string) =>
+  ref
+    .child(`/users/${uid}/photoURL`)
+    .once('value')
+    .then(s => s.val())
+    .catch(() => {});
