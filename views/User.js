@@ -5,7 +5,34 @@ import { View, Button, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { StackNavigator } from 'react-navigation';
 
-import { loginWithFacebook, getUser } from '../helpers/auth';
+import { loginWithFacebook, getUser, signOut } from '../helpers/auth';
+
+class SignedIn extends Component {
+  props: {
+    user: {
+      displayName: string,
+    },
+    onSignOut: void => void,
+  };
+
+  signOut() {
+    const { onSignOut } = this.props;
+    signOut();
+    onSignOut();
+  }
+
+  render() {
+    const { user: { displayName } } = this.props;
+    return (
+      <View>
+        <Text style={{ textAlign: 'center' }}>
+          Welcome {displayName}
+        </Text>
+        <Button title="log out" onPress={this.signOut} />
+      </View>
+    );
+  }
+}
 
 class UserView extends Component {
   static navigationOptions = {
@@ -34,6 +61,8 @@ class UserView extends Component {
     }
   }
 
+  onSignOut = () => this.setState({ user: null });
+
   render() {
     const { navigate } = this.props.navigation;
     const { user } = this.state;
@@ -45,9 +74,7 @@ class UserView extends Component {
               onPress={() => loginWithFacebook()}
               title="log in with facebook"
             />
-          : <Text style={{ textAlign: 'center' }}>
-              Welcome {user.displayName}
-            </Text>}
+          : <SignedIn user={user} onSignOut={this.onSignOut} />}
       </View>
     );
   }
