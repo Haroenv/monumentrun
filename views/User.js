@@ -1,11 +1,11 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Button } from 'react-native';
+import { View, Button, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { StackNavigator } from 'react-navigation';
 
-import { loginWithFacebook } from '../helpers/auth';
+import { loginWithFacebook, getUser } from '../helpers/auth';
 
 class UserView extends Component {
   static navigationOptions = {
@@ -19,18 +19,35 @@ class UserView extends Component {
       />,
   };
   props: {
-    navigation: any,
+    navigation: { navigate: string => void },
   };
+  state = {
+    user: null,
+  };
+
+  async componentDidMount() {
+    try {
+      const user = await getUser();
+      this.setState({ user });
+    } catch (e) {
+      // please log in 🙅
+    }
+  }
 
   render() {
     const { navigate } = this.props.navigation;
+    const { user } = this.state;
     return (
       <View>
         <Button title="start running 😏" onPress={() => navigate('run')} />
-        <Button
-          onPress={() => loginWithFacebook()}
-          title="log in with facebook"
-        />
+        {user === null
+          ? <Button
+              onPress={() => loginWithFacebook()}
+              title="log in with facebook"
+            />
+          : <Text style={{ textAlign: 'center' }}>
+              Welcome {user.displayName}
+            </Text>}
       </View>
     );
   }
