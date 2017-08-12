@@ -16,7 +16,17 @@ export const auth = firebase.auth;
 export const firebaseImages = ({ run, venue }) =>
   firebase.storage().ref().child(`images/${run}/${venue}`);
 
-export const getLeaderboard = () =>
+type LeaderboardItem = {
+  key: string,
+  run: string,
+  score: number,
+  name: string,
+  uid?: string,
+};
+
+type Leaderboard = Array<LeaderboardItem>;
+
+export const getLeaderboard = (): Promise<Leaderboard> =>
   ref
     .child('runs')
     .orderByChild('score')
@@ -40,7 +50,7 @@ export const getLeaderboard = () =>
     .then(s => s.reverse())
     .then(s => s.map((v, i) => ({ position: i + 1, ...v })));
 
-export const getUserPicture = (uid: string) =>
+export const getUserPicture = (uid: string): Promise<string> =>
   ref
     .child(`/users/${uid}/photoURL`)
     .once('value')
