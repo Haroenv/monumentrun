@@ -1,13 +1,17 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
 import { MapView } from 'expo';
 import { ref } from '../helpers/firebase';
 import { customMapStyle } from '../helpers/map';
 import { toLatLng, getCenter } from '../helpers/location';
 
 export default class Run extends Component {
+  props: {
+    run: string,
+    style: Object,
+    here: any,
+  };
   state = {
     history: [],
     venues: [],
@@ -29,7 +33,7 @@ export default class Run extends Component {
     }
   }
 
-  subscribe(id: string) {
+  subscribe(id: string): any {
     if (!id) {
       return;
     }
