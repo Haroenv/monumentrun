@@ -3,11 +3,11 @@ import { Text, View, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { StackNavigator } from 'react-navigation';
 
-import HelpText from '../assets/help.md.js';
+import HelpText from '../assets/help.txt.js';
 
 const styles = StyleSheet.create({
   paragraph: {
-    margin: 4,
+    margin: 8,
     fontSize: 16,
   },
 });
