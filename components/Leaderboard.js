@@ -5,15 +5,51 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Image,
 } from 'react-native';
-import { getLeaderboard } from '../helpers/firebase';
+import { getLeaderboard, getUserPicture } from '../helpers/firebase';
 
 type Run = {
   run: string,
   name: string,
   score: number,
   position: number,
+  uid: string,
 };
+
+const styles = StyleSheet.create({
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44,
+  },
+  topImage: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100,
+    height: 100,
+    borderRadius: 5,
+  },
+  topList: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 5,
+  },
+});
+
+class Profile extends Component {
+  props: {
+    uri?: string,
+  };
+  render() {
+    const { uri } = this.props;
+
+    if (uri === null) {
+      return null;
+    }
+    return <Image style={styles.topImage} source={{ uri }} />;
+  }
+}
 
 class TopScore extends Component {
   props: {
@@ -21,14 +57,33 @@ class TopScore extends Component {
     ...Run,
   };
 
+  state = {
+    picture: null,
+  };
+
+  async componentDidMount() {
+    const picture = await getUserPicture(this.props.uid);
+    this.setState({ picture });
+  }
+
   render() {
     const { run, name, score, position, navigate } = this.props;
+    const { picture } = this.state;
     return (
-      <TouchableOpacity onPress={() => navigate('SingleRun', { run, name })}>
-        <Text>
-          {position} {score} {name}
-        </Text>
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity onPress={() => navigate('SingleRun', { run, name })}>
+          <Text>
+            {position}
+          </Text>
+          <Profile uri={picture} />
+          <Text>
+            {score}
+          </Text>
+          <Text>
+            {name}
+          </Text>
+        </TouchableOpacity>
+      </View>
     );
   }
 }
@@ -56,8 +111,8 @@ export default class LeaderboardViews extends Component {
 
     return (
       <View>
-        <View style={{ flexDirection: 'row' }}>
-          {topScores.map(({ run, name, score, position }) =>
+        <View style={styles.topList}>
+          {topScores.map(({ run, name, score, position, uid }) =>
             <TopScore
               key={run}
               run={run}
@@ -65,6 +120,7 @@ export default class LeaderboardViews extends Component {
               score={score}
               navigate={navigate}
               position={position}
+              uid={uid}
             />
           )}
         </View>
@@ -76,14 +132,6 @@ export default class LeaderboardViews extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-  },
-});
 
 class Row extends Component {
   props: {
