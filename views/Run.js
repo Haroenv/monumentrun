@@ -16,7 +16,7 @@ export default class RunView extends Component {
   props: {
     run: string,
     navigation: {
-      navigate: Function,
+      navigate: string => void,
     },
   };
 

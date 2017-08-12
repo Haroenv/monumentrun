@@ -3,11 +3,14 @@
 import React, { Component } from 'react';
 import { View, Button } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { StackNavigator } from 'react-navigation';
+
 import { loginWithFacebook } from '../helpers/auth';
-export default class UserView extends Component {
+
+class UserView extends Component {
   static navigationOptions = {
     tabBarLabel: 'User',
-    title: 'test',
+    title: 'Settings',
     tabBarIcon: ({ tintColor, focused }) =>
       <Ionicons
         name={focused ? 'ios-person' : 'ios-person-outline'}
@@ -32,3 +35,9 @@ export default class UserView extends Component {
     );
   }
 }
+
+export default StackNavigator({
+  User: {
+    screen: UserView,
+  },
+});

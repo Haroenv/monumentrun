@@ -27,7 +27,7 @@ const notLoggedIn = StyleSheet.create({
 
 class NotLoggedIn extends Component {
   props: {
-    navigate: Function,
+    navigate: string => void,
   };
 
   render() {
@@ -44,21 +44,42 @@ class NotLoggedIn extends Component {
 }
 
 class Bar extends Component {
+  props: {
+    closest: {
+      name: string,
+      score: number,
+      distance: number,
+      category: string,
+    },
+    history: any[],
+  };
+
   render() {
+    const {
+      closest: {
+        name = 'Saint-Jacques Tower (Tour Saint-Jacques)',
+        score = 16,
+        distance = 50,
+        category = 'Historic Site',
+      },
+      history = [],
+    } = this.props;
     return (
       <View>
         <Text>
-          {16}p
+          {score}p
         </Text>
         <Text>
-          {'Saint-Jacques Tower (Tour Saint-Jacques)'}
+          {name}
         </Text>
         <Text>
-          {52}m away
+          {distance}m away
         </Text>
-        <Text>Historic Site</Text>
         <Text>
-          {0} monuments visited
+          {category}
+        </Text>
+        <Text>
+          {history.length} monuments visited
         </Text>
         <Timer />
       </View>
@@ -72,7 +93,7 @@ export default class Bottom extends Component {
   };
 
   props: {
-    navigate: Function,
+    navigate: string => void,
   };
 
   async componentDidMount() {
@@ -87,6 +108,8 @@ export default class Bottom extends Component {
   render() {
     const { navigate } = this.props;
     const { user } = this.state;
+    console.warn(user === null ? 'null' : user.displayName);
+
     return (
       <LocationProvider
         render={props =>

@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { StackNavigator } from 'react-navigation';
 
-export default class HelpView extends Component {
+import HelpText from '../assets/help.md.js';
+
+const styles = StyleSheet.create({
+  paragraph: {
+    margin: 4,
+    fontSize: 16,
+  },
+});
+
+class HelpView extends Component {
   static navigationOptions = {
     tabBarLabel: 'Help',
+    title: 'Help',
     tabBarIcon: ({ tintColor, focused }) =>
       <Ionicons
         name={focused ? 'ios-help-circle' : 'ios-help-circle-outline'}
@@ -16,8 +27,16 @@ export default class HelpView extends Component {
   render() {
     return (
       <View>
-        <Text>ok hi</Text>
+        <Text style={styles.paragraph}>
+          {HelpText}
+        </Text>
       </View>
     );
   }
 }
+
+export default StackNavigator({
+  Help: {
+    screen: HelpView,
+  },
+});

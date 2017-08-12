@@ -17,7 +17,7 @@ type Run = {
 
 class TopScore extends Component {
   props: {
-    navigate: Function,
+    navigate: string => void,
     ...Run,
   };
 
@@ -41,7 +41,7 @@ export default class LeaderboardViews extends Component {
     leaderboard: Run[],
   };
   props: {
-    navigate: Function,
+    navigate: string => void,
   };
 
   async componentDidMount() {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
 
 class Row extends Component {
   props: {
-    navigate: Function,
+    navigate: string => void,
     ...Run,
   };
   render() {

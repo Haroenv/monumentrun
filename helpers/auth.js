@@ -31,12 +31,15 @@ export async function loginWithFacebook() {
     permissions: ['public_profile'],
   });
 
+  console.warn(token, type);
+
   if (type === 'success') {
     // Build Firebase credential with the Facebook access token.
     const credential = auth.FacebookAuthProvider.credential(token);
 
     // Sign in with credential from the Facebook user.
     auth().signInWithCredential(credential).catch(error => {
+      console.log(error);
       // Handle Errors here.
     });
   }

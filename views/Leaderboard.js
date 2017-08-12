@@ -11,7 +11,7 @@ import type { TabBar } from '../types';
 
 class LeaderboardView extends Component {
   props: {
-    navigation: { navigate: Function },
+    navigation: { navigate: string => void },
   };
   render() {
     const { navigate } = this.props.navigation;
