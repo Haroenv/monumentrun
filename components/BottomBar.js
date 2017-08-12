@@ -61,7 +61,7 @@ class Bar extends Component {
         score = 16,
         distance = 50,
         category = 'Historic Site',
-      },
+      } = {},
       history = [],
     } = this.props;
     return (
@@ -108,7 +108,6 @@ export default class Bottom extends Component {
   render() {
     const { navigate } = this.props;
     const { user } = this.state;
-    console.warn(user === null ? 'null' : user.displayName);
 
     return (
       <LocationProvider
