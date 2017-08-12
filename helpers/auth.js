@@ -31,8 +31,6 @@ export async function loginWithFacebook() {
     permissions: ['public_profile'],
   });
 
-  console.warn(token, type);
-
   if (type === 'success') {
     // Build Firebase credential with the Facebook access token.
     const credential = auth.FacebookAuthProvider.credential(token);
@@ -44,3 +42,5 @@ export async function loginWithFacebook() {
     });
   }
 }
+
+export const signOut = () => auth().signOut();
