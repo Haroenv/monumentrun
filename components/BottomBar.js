@@ -96,10 +96,9 @@ export default class Bottom extends Component {
     navigate: string => void,
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     try {
-      const user = await getUser();
-      this.setState({ user });
+      getUser(user => this.setState({ user }));
     } catch (e) {
       // please log in 🙅
     }

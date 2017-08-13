@@ -12,16 +12,13 @@ const updateUserData = user => {
     );
 };
 
-export const getUser = () =>
-  new Promise((resolve, reject) =>
-    auth().onAuthStateChanged(user => {
-      if (user !== null) {
-        updateUserData(user);
-        return resolve(user);
-      }
-      reject();
-    })
-  );
+export const getUser = callback =>
+  auth().onAuthStateChanged(user => {
+    callback(user);
+    if (user !== null) {
+      updateUserData(user);
+    }
+  });
 
 export async function loginWithFacebook() {
   const {
@@ -35,11 +32,14 @@ export async function loginWithFacebook() {
     // Build Firebase credential with the Facebook access token.
     const credential = auth.FacebookAuthProvider.credential(token);
 
-    // Sign in with credential from the Facebook user.
-    auth().signInWithCredential(credential).catch(error => {
-      console.log(error);
+    try {
+      // Sign in with credential from the Facebook user.
+      const result = await auth().signInWithCredential(credential);
+      return result;
+    } catch (error) {
+      return error;
       // Handle Errors here.
-    });
+    }
   }
 }
 

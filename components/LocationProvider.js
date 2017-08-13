@@ -1,10 +1,35 @@
+// @flow
+
 import React, { Component } from 'react';
 import { Location, Permissions } from 'expo';
 
+type LocationData = {
+  coords: {
+    latitude: number,
+    longitude: number,
+    altitude: number,
+    accuracy: number,
+    heading: number,
+    speed: number,
+  },
+  timestamp: number,
+};
+
+type State = {
+  location?: LocationData,
+  errorMessage?: 'Permission to access location was denied',
+  timestamp: number,
+};
+
 export default class App extends Component {
+  props: {
+    render: State => React.Component,
+  };
+  state: State;
   state = {
     location: null,
     errorMessage: null,
+    timestamp: 0,
   };
 
   locator = null;
@@ -24,7 +49,7 @@ export default class App extends Component {
   }
 
   _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
         errorMessage: 'Permission to access location was denied',
@@ -33,7 +58,7 @@ export default class App extends Component {
 
     this.locator = await Location.watchPositionAsync(
       { enableHighAccuracy: true },
-      (location, timestamp) => this.setState({ location })
+      (location, timestamp) => this.setState({ location, timestamp })
     );
   };
 

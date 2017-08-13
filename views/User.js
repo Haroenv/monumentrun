@@ -12,14 +12,11 @@ class SignedIn extends Component {
     user: {
       displayName: string,
     },
-    onSignOut: void => void,
   };
 
-  signOut() {
-    const { onSignOut } = this.props;
+  signOut = () => {
     signOut();
-    onSignOut();
-  }
+  };
 
   render() {
     const { user: { displayName } } = this.props;
@@ -52,16 +49,13 @@ class UserView extends Component {
     user: null,
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     try {
-      const user = await getUser();
-      this.setState({ user });
+      getUser(user => this.setState({ user }));
     } catch (e) {
       // please log in 🙅
     }
   }
-
-  onSignOut = () => this.setState({ user: null });
 
   render() {
     const { navigate } = this.props.navigation;
@@ -74,7 +68,7 @@ class UserView extends Component {
               onPress={() => loginWithFacebook()}
               title="log in with facebook"
             />
-          : <SignedIn user={user} onSignOut={this.onSignOut} />}
+          : <SignedIn user={user} />}
       </View>
     );
   }
