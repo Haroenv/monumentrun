@@ -12,6 +12,7 @@ class SignedIn extends Component {
     user: {
       displayName: string,
     },
+    navigate: string => void,
   };
 
   signOut = () => {
@@ -19,9 +20,10 @@ class SignedIn extends Component {
   };
 
   render() {
-    const { user: { displayName } } = this.props;
+    const { user: { displayName }, navigate } = this.props;
     return (
       <View>
+        <Button title="start running 😏" onPress={() => navigate('run')} />
         <Text style={{ textAlign: 'center' }}>
           Welcome {displayName}
         </Text>
@@ -62,13 +64,12 @@ class UserView extends Component {
     const { user } = this.state;
     return (
       <View>
-        <Button title="start running 😏" onPress={() => navigate('run')} />
         {user === null
           ? <Button
               onPress={() => loginWithFacebook()}
               title="log in with facebook"
             />
-          : <SignedIn user={user} />}
+          : <SignedIn user={user} navigate={navigate} />}
       </View>
     );
   }
