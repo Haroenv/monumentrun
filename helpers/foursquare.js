@@ -1,22 +1,57 @@
 import foursquareApi from '@haroenv/react-foursquare';
+import {
+  REACT_APP_FOURSQUARE_ID,
+  REACT_APP_FOURSQUARE_SECRET,
+} from 'react-native-dotenv';
 
 const foursquare = foursquareApi({
-  clientID: process.env.REACT_APP_FOURSQUARE_ID,
-  clientSecret: process.env.REACT_APP_FOURSQUARE_SECRET,
+  clientID: REACT_APP_FOURSQUARE_ID,
+  clientSecret: REACT_APP_FOURSQUARE_SECRET,
 });
 
-export const getVenues = ({ latitude, longitude, ...query, blacklist = [] }) =>
-  foursquare.venues
-    .getVenues({
-      ll: `${latitude},${longitude}`,
-      ...query,
+export const FOURSQUARE_CATEGORIES = [
+  '4d4b7104d754a06370d81259',
+  '4bf58dd8d48988d12d941735',
+];
+
+export type VenueType = {
+  name: string,
+  id: string,
+};
+
+export async function getVenues({
+  latitude,
+  longitude,
+  blacklist = [],
+  ...query
+}): Array<VenueType> {
+  const { response: { venues } } = await foursquare.venues.getVenues({
+    ll: `${latitude},${longitude}`,
+    ...query,
+  });
+
+  const filtered =
+    venues.length > 0
+      ? venues.filter(({ id }) => blacklist.indexOf(id) === -1)
+      : venues;
+
+  return filtered.map(
+    ({
+      id,
+      name,
+      stats,
+      location: { lat, lng, distance: dist },
+      categories,
+    }) => ({
+      id,
+      name,
+      location: { latitude: lat, longitude: lng },
+      distance: dist,
+      score: getScore(stats),
+      categories,
     })
-    .then(
-      ({ response: { venues } }) =>
-        venues
-          ? venues.filter(({ id }) => blacklist.indexOf(id) === -1)
-          : venues
-    );
+  );
+}
 
 export const getVenuePhoto = id =>
   foursquare.venues.getVenuePhotos({

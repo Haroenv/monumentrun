@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+
 const config = {
   apiKey: 'AIzaSyA6vOOiI1nl6gmtFuIPlCUZiZMTC_XUGBo',
   authDomain: 'monumentrun-1cc39.firebaseapp.com',

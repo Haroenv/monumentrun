@@ -6,7 +6,23 @@ import { ScrollView, View, Text } from 'react-native';
 import { mapNavigationStateParamsToProps } from '../helpers/navigation';
 import { ref } from '../helpers/firebase';
 import { toLatLng } from '../helpers/location';
+import type { VenueType } from '../helpers/foursquare';
+
 import Run from './Run';
+
+class Venue extends Component {
+  props: VenueType;
+  render() {
+    const { name } = this.props;
+    return (
+      <View>
+        <Text>
+          {name}
+        </Text>
+      </View>
+    );
+  }
+}
 
 export default class SingleRun extends Component {
   props: {
@@ -48,20 +64,12 @@ export default class SingleRun extends Component {
     const { run } = this.props;
     const { venues } = this.state;
 
-    console.log(venues);
-
     return (
       <ScrollView style={{ flex: 1 }}>
         <Run run={run} style={{ height: 400 }} />
         <View>
           <Text>Yo I'm alive</Text>
-          {venues.map(({ name, id }) =>
-            <View key={id}>
-              <Text>
-                {name}
-              </Text>
-            </View>
-          )}
+          {venues.map(venue => <Venue key={venue.id} {...venue} />)}
         </View>
       </ScrollView>
     );

@@ -41,7 +41,7 @@ export default class Run extends Component {
 
   subscribe(id: string): any {
     if (!id) {
-      return;
+      return undefined;
     }
     return ref.child(`runs/${id}/`).on('value', s => {
       const val = s.val();
