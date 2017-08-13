@@ -26,16 +26,46 @@ const styles = StyleSheet.create({
   topImage: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 100,
-    height: 100,
-    borderRadius: 5,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
   topList: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     margin: 5,
   },
+  topPosition: {
+    fontWeight: '900',
+    position: 'absolute',
+    top: 5,
+    left: 5,
+    fontSize: 18,
+    backgroundColor: 'transparent',
+    textShadowColor: 'white',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
+  },
+  topPoints: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  topName: {
+    textAlign: 'center',
+  },
 });
+
+function positionSize(position: number) {
+  switch (position) {
+    case 1:
+      return 30;
+    case 2:
+      return 25;
+    default:
+      return 20;
+  }
+}
 
 class Profile extends Component {
   props: {
@@ -72,14 +102,17 @@ class TopScore extends Component {
     return (
       <View>
         <TouchableOpacity onPress={() => navigate('SingleRun', { run, name })}>
-          <Text>
+          <Profile uri={picture} />
+
+          <Text
+            style={[styles.topPosition, { fontSize: positionSize(position) }]}
+          >
             {position}
           </Text>
-          <Profile uri={picture} />
-          <Text>
+          <Text style={styles.topPoints}>
             {score}
           </Text>
-          <Text>
+          <Text style={styles.topName}>
             {name}
           </Text>
         </TouchableOpacity>
