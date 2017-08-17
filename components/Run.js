@@ -6,41 +6,16 @@ import { ref } from '../helpers/firebase';
 import { customMapStyle } from '../helpers/map';
 import { toLatLng, getCenter } from '../helpers/location';
 import type { LatLng } from '../helpers/location';
+import type { VenueType } from '../helpers/foursquare';
 
 export default class Run extends Component {
   props: {
     style?: Object,
     here?: LatLng,
+    history: Array<LatLng>,
+    venues: Array<VenueType>,
+    nearby: Array<VenueType>,
   };
-
-  // async componentDidMount() {
-  //   const currentSubscription = await this.subscribe(this.props.run);
-  //   this.setState({ currentSubscription });
-  // }
-
-  // componentWillReceiveProps(newProps: { run: string }) {
-  //   if (newProps.run !== this.props.run) {
-  //     if (this.state.currentSubscription !== null) {
-  //       ref.off('value', this.state.currentSubscription);
-  //     }
-  //     const currentSubscription = this.subscribe(newProps.run);
-  //     this.setState({ currentSubscription });
-  //   }
-  // }
-
-  // subscribe(id: string): any {
-  //   if (!id) {
-  //     return undefined;
-  //   }
-  //   return ref.child(`runs/${id}/`).on('value', s => {
-  //     const val = s.val();
-  //     const history = 'history' in val ? val.history : [];
-  //     this.setState(() => ({
-  //       ...val,
-  //       history: history.map(toLatLng),
-  //     }));
-  //   });
-  // }
 
   render() {
     const { style, here, history = [], venues = [], nearby = [] } = this.props;
@@ -75,6 +50,25 @@ export default class Run extends Component {
                 latitude,
                 longitude,
               }}
+            />
+        )}
+        {nearby.map(
+          ({
+            name,
+            location: { lat: latitude, lng: longitude },
+            score,
+            id,
+            categories: [{ shortName: category }],
+          }) =>
+            <MapView.Marker
+              key={id}
+              title={name}
+              description={`${category} - ${score} points`}
+              coordinate={{
+                latitude,
+                longitude,
+              }}
+              pinColor="black"
             />
         )}
       </MapView>
