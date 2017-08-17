@@ -48,7 +48,7 @@ export async function getVenues({
       location: { latitude: lat, longitude: lng },
       distance: dist,
       score: getScore(stats),
-      categories,
+      category: categories[0].name,
     })
   );
 }
