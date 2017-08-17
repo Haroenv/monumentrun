@@ -51,10 +51,11 @@ class Bar extends Component {
       distance: number,
       category: string,
     }>,
+    onStop: void => void,
   };
 
   render() {
-    const { nearby: [first = {}] = [] } = this.props;
+    const { nearby: [first = {}] = [], onStop } = this.props;
     const { name, score, distance, category } = first;
 
     return (
@@ -72,6 +73,7 @@ class Bar extends Component {
           {category}
         </Text>
         <Checkin isNear={distance < 200} />
+        <Button title="stop" onPress={onStop} />
         <Timer />
       </View>
     );

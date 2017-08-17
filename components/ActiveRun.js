@@ -14,16 +14,30 @@ class Running extends Component {
     runInfo: Object,
     navigate: string => void,
     onRequestStart: void => void,
+    onStop: void => void,
   };
 
   render() {
-    const { runInfo, location, navigate, running, onRequestStart } = this.props;
+    const {
+      runInfo,
+      location,
+      navigate,
+      running,
+      onRequestStart,
+      onStop,
+    } = this.props;
+
     return (
       <View style={{ flex: 1 }}>
         <Run {...runInfo} />
         {!running && <Intro onPress={onRequestStart} />}
         {running &&
-          <BottomBar navigate={navigate} {...location} {...runInfo} />}
+          <BottomBar
+            navigate={navigate}
+            {...location}
+            {...runInfo}
+            onStop={onStop}
+          />}
       </View>
     );
   }
@@ -39,6 +53,10 @@ export default class ActiveRun extends Component {
 
   _startRun = () => {
     this.setState({ run: '-KnZ1p-Vm6LzDoMnUj-t' });
+  };
+
+  _stopRun = () => {
+    this.setState({ run: undefined });
   };
 
   render() {
@@ -57,6 +75,7 @@ export default class ActiveRun extends Component {
                     runInfo={runInfo}
                     navigate={navigate}
                     running={true}
+                    onStop={this._stopRun}
                   />}
               />
             : <Running
