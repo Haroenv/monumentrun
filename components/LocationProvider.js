@@ -55,16 +55,14 @@ export default class LocationProvider extends Component {
     this.setState(s => ({ ...s, location }));
     const { latitude, longitude } = location.coords;
 
-    const venues = await getVenues({
+    const nearby = await getVenues({
       latitude,
       longitude,
       radius: 500,
       categoryId: FOURSQUARE_CATEGORIES.join(','), // arts & entertainment
     });
 
-    console.warn(JSON.stringify(venues[0]));
-
-    this.setState(s => ({ ...s, venues }));
+    this.setState(s => ({ ...s, nearby }));
   };
 
   _getLocationAsync = async () => {
