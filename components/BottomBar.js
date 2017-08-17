@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import { getUser } from '../helpers/auth';
 import LocationProvider from './LocationProvider';
+import Checkin from './Checkin';
 
 const timer = StyleSheet.create({
   cursor: {
@@ -45,25 +46,18 @@ class NotLoggedIn extends Component {
 
 class Bar extends Component {
   props: {
-    closest: {
+    nearby: Array<{
       name: string,
       score: number,
       distance: number,
       category: string,
-    },
-    history: any[],
+    }>,
   };
 
   render() {
-    const {
-      closest: {
-        name = 'Saint-Jacques Tower (Tour Saint-Jacques)',
-        score = 16,
-        distance = 50,
-        category = 'Historic Site',
-      } = {},
-      history = [],
-    } = this.props;
+    const { nearby: [first = {}] = [] } = this.props;
+    const { name, score, distance, category } = first;
+
     return (
       <View>
         <Text>
@@ -78,9 +72,7 @@ class Bar extends Component {
         <Text>
           {category}
         </Text>
-        <Text>
-          {history.length} monuments visited
-        </Text>
+        <Checkin isNear={distance < 200} />
         <Timer />
       </View>
     );
