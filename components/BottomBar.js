@@ -1,22 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { getUser } from '../helpers/auth';
-import LocationProvider from './LocationProvider';
 import Checkin from './Checkin';
-
-const timer = StyleSheet.create({
-  cursor: {
-    backgroundColor: 'red',
-  },
-  container: {
-    height: 5,
-  },
-});
-
-const Timer = () =>
-  <View style={timer.container}>
-    <View style={[timer.cursor]} />
-  </View>;
 
 const notLoggedIn = StyleSheet.create({
   text: {
@@ -43,6 +28,20 @@ class NotLoggedIn extends Component {
     );
   }
 }
+
+const timer = StyleSheet.create({
+  cursor: {
+    backgroundColor: 'red',
+  },
+  container: {
+    height: 5,
+  },
+});
+
+const Timer = () =>
+  <View style={timer.container}>
+    <View style={[timer.cursor]} />
+  </View>;
 
 class Bar extends Component {
   props: {
@@ -100,13 +99,8 @@ export default class Bottom extends Component {
     const { navigate } = this.props;
     const { user } = this.state;
 
-    return (
-      <LocationProvider
-        render={props =>
-          user === null
-            ? <NotLoggedIn navigate={navigate} />
-            : <Bar {...props} />}
-      />
-    );
+    return user === null
+      ? <NotLoggedIn navigate={navigate} />
+      : <Bar {...this.props} />;
   }
 }

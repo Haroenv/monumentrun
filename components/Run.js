@@ -9,53 +9,41 @@ import type { LatLng } from '../helpers/location';
 
 export default class Run extends Component {
   props: {
-    run: string,
     style?: Object,
     here?: LatLng,
   };
-  state: {
-    history: Array<LatLng>,
-    venues: Array<Object>,
-    currentSubscription: null | any,
-  };
-  state = {
-    history: [],
-    venues: [],
-    currentSubscription: null,
-  };
 
-  async componentDidMount() {
-    const currentSubscription = await this.subscribe(this.props.run);
-    this.setState({ currentSubscription });
-  }
+  // async componentDidMount() {
+  //   const currentSubscription = await this.subscribe(this.props.run);
+  //   this.setState({ currentSubscription });
+  // }
 
-  componentWillReceiveProps(newProps: { run: string }) {
-    if (newProps.run !== this.props.run) {
-      if (this.state.currentSubscription !== null) {
-        ref.off('value', this.state.currentSubscription);
-      }
-      const currentSubscription = this.subscribe(newProps.run);
-      this.setState({ currentSubscription });
-    }
-  }
+  // componentWillReceiveProps(newProps: { run: string }) {
+  //   if (newProps.run !== this.props.run) {
+  //     if (this.state.currentSubscription !== null) {
+  //       ref.off('value', this.state.currentSubscription);
+  //     }
+  //     const currentSubscription = this.subscribe(newProps.run);
+  //     this.setState({ currentSubscription });
+  //   }
+  // }
 
-  subscribe(id: string): any {
-    if (!id) {
-      return undefined;
-    }
-    return ref.child(`runs/${id}/`).on('value', s => {
-      const val = s.val();
-      const history = 'history' in val ? val.history : [];
-      this.setState(() => ({
-        ...val,
-        history: history.map(toLatLng),
-      }));
-    });
-  }
+  // subscribe(id: string): any {
+  //   if (!id) {
+  //     return undefined;
+  //   }
+  //   return ref.child(`runs/${id}/`).on('value', s => {
+  //     const val = s.val();
+  //     const history = 'history' in val ? val.history : [];
+  //     this.setState(() => ({
+  //       ...val,
+  //       history: history.map(toLatLng),
+  //     }));
+  //   });
+  // }
 
   render() {
-    const { history = [], venues = [] } = this.state;
-    const { style, here } = this.props;
+    const { style, here, history = [], venues = [], nearby = [] } = this.props;
     return (
       <MapView
         style={{ flex: 1, ...style }}

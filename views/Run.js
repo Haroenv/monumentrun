@@ -1,18 +1,12 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Run from '../components/Run';
-import BottomBar from '../components/BottomBar';
+import ActiveRun from '../components/ActiveRun';
 import type { TabBar } from '../types';
 
 export default class RunView extends Component {
-  static defaultProps = {
-    run: '-KnZ1p-Vm6LzDoMnUj-t',
-  };
-
   props: {
     run: string,
     navigation: {
@@ -31,14 +25,6 @@ export default class RunView extends Component {
   };
 
   render() {
-    const { run } = this.props;
-    const { navigate } = this.props.navigation;
-
-    return (
-      <View style={{ flex: 1 }}>
-        <Run run={run} />
-        <BottomBar navigate={navigate} />
-      </View>
-    );
+    return <ActiveRun navigate={this.props.navigation.navigate} />;
   }
 }
