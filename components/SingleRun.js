@@ -6,6 +6,7 @@ import { ScrollView, View, Text } from 'react-native';
 import Run from './Run';
 import RunProvider from './RunProvider';
 import type { VenueType } from '../helpers/foursquare';
+import VenueList from '../lib/js/re/venueList';
 
 class Venue extends Component {
   props: VenueType;
@@ -24,6 +25,7 @@ class Venue extends Component {
 export default class SingleRun extends Component {
   props: {
     run: string,
+    venues: Array<VenueType>,
   };
 
   render() {
@@ -35,8 +37,11 @@ export default class SingleRun extends Component {
             <Run {...props} style={{ height: 400 }} />
             <View>
               <Text>Venues visited</Text>
-              {props.venues.map(venue => <Venue key={venue.id} {...venue} />)}
+              {this.props.venues.map(venue =>
+                <Venue key={venue.id} {...venue} />
+              )}
             </View>
+            {/* <VenueList venues={this.props.venues} /> */}
           </ScrollView>}
       />
     );

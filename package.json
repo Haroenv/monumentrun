@@ -17,6 +17,8 @@
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
+    "build": "bsb -make-world -clean-world",
+    "watch": "bsb -make-world -clean-world -w",
     "start": "react-native-scripts start",
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
@@ -31,6 +33,9 @@
     "react": "16.0.0-alpha.12",
     "react-native": "^0.46.1",
     "react-native-vector-icons": "^4.3.0",
-    "react-navigation": "^1.0.0-beta.11"
+    "react-navigation": "^1.0.0-beta.11",
+    "bs-platform": "^1.8.2",
+    "bs-react-native": "https://github.com/BuckleTypes/bs-react-native.git",
+    "reason-react": "^0.2.3"
   }
 }

@@ -1137,6 +1137,16 @@ braces@^1.8.2:
     preserve "^0.2.0"
     repeat-element "^1.1.2"
 
+bs-platform@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-1.8.2.tgz#2aba1cfc73e21feaa8902d67b5ddbec975938554"
+
+"bs-react-native@https://github.com/BuckleTypes/bs-react-native.git":
+  version "0.1.0"
+  resolved "https://github.com/BuckleTypes/bs-react-native.git#c1782162e8a3a9547f5511cf23cc4b6e4aa2d16b"
+  dependencies:
+    reason-react "^0.2.3"
+
 bser@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/bser/-/bser-1.0.2.tgz#381116970b2a6deea5646dd15dd7278444b56169"
@@ -1486,7 +1496,7 @@ crc@3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/crc/-/crc-3.3.0.tgz#fa622e1bc388bf257309082d6b65200ce67090ba"
 
-create-react-class@^15.5.2, create-react-class@^15.5.3:
+create-react-class@^15.0.0, create-react-class@^15.5.2, create-react-class@^15.5.3:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.0.tgz#ab448497c26566e1e29413e883207d57cfe7bed4"
   dependencies:
@@ -4166,6 +4176,12 @@ readable-stream@~1.1.8, readable-stream@~1.1.9:
     inherits "~2.0.1"
     isarray "0.0.1"
     string_decoder "~0.10.x"
+
+reason-react@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/reason-react/-/reason-react-0.2.3.tgz#7a2654b9bf85b25ccd53ae6bd84d3f33238220ae"
+  dependencies:
+    create-react-class "^15.0.0"
 
 rebound@^0.0.13:
   version "0.0.13"
