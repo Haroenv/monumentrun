@@ -17,6 +17,13 @@ export const FOURSQUARE_CATEGORIES = [
 export type VenueType = {
   name: string,
   id: string,
+  location: {
+    latitude: number,
+    longitude: number,
+  },
+  distance: number,
+  score: number,
+  category: string,
 };
 
 export async function getVenues({
