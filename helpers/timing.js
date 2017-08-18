@@ -1,1 +1,1 @@
-export const TOTAL_TIME = 5; //* 60; // 15 minutes
+export const TOTAL_TIME = 15 * 60; // 15 minutes

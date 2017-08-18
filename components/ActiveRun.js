@@ -34,7 +34,7 @@ class Running extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <Run {...runInfo} />
+        <Run {...runInfo} nearby={location.nearby} />
         {!running && <Intro onPress={onRequestStart} />}
         {running &&
           <BottomBar
