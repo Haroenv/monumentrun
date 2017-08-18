@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button, Dimensions } from 'react-native';
 
 import { getUser } from '../helpers/auth';
 import { TOTAL_TIME } from '../helpers/timing';
+import { isNear } from '../helpers/location';
 import Checkin from './Checkin';
 
 const notLoggedIn = StyleSheet.create({
@@ -130,7 +131,7 @@ class Bar extends Component {
         <Text>
           {category}
         </Text>
-        <Checkin isNear={distance < 200} />
+        <Checkin isNear={isNear(distance)} />
         <Button title="stop" onPress={onStop} />
         <Text>
           {secondsPassed}

@@ -52,3 +52,5 @@ export function getCenter({ here, venues, history }): Nothing | Center {
     },
   };
 }
+
+export const isNear = (distance: number): boolean => distance < 200;

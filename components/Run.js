@@ -5,6 +5,7 @@ import { MapView } from 'expo';
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 import { customMapStyle } from '../helpers/map';
+import { isNear } from '../helpers/location';
 import type { LatLng } from '../helpers/location';
 import type { VenueType } from '../helpers/foursquare';
 
@@ -57,10 +58,18 @@ export default class Run extends Component {
                 latitude,
                 longitude,
               }}
+              pinColor="red"
             />
         )}
         {nearby.map(
-          ({ name, location: { latitude, longitude }, score, id, category }) =>
+          ({
+            name,
+            location: { latitude, longitude },
+            score,
+            id,
+            category,
+            distance,
+          }) =>
             <MapView.Marker
               key={id}
               title={name}
@@ -69,7 +78,7 @@ export default class Run extends Component {
                 latitude,
                 longitude,
               }}
-              pinColor="black"
+              pinColor={isNear(distance) ? 'green' : 'grey'}
             />
         )}
       </MapView>
