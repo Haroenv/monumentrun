@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { ImagePicker, Permissions } from 'expo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const uploadImage = (uri: string) => console.warn('yolo', uri);
+const uploadImage = (uri: string) => console.warn('uploading', uri);
 
 export default class Checkin extends Component {
   props: {
