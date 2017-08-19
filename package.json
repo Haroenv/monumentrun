@@ -2,6 +2,7 @@
   "name": "monumentrun",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "eslint": "^4.4.0",
