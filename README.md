@@ -1,6 +1,6 @@
 # Monumentrun
 
-This is available on [Expo](). 
+This is available on [expo.io/@haroen/monumentrun](https://expo.io/@haroen/monumentrun). 
 
 # Getting started
 
