@@ -19,4 +19,4 @@ let make venueList::(venues: array venue) _children => {
 };
 /*
  let default =
-   ReasonReact.wrapReasonForJs ::component (fun jsProps => make venues::jsProps##venues [||]); */
+    ReasonReact.wrapReasonForJs ::component (fun jsProps => make venues::jsProps##venues [||]); */

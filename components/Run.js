@@ -39,28 +39,29 @@ export default class Run extends Component {
           strokeColor={'#b1473f'}
           miterLimit={5}
         />
-        {venues.map(
-          ({
+        {venues.map(venue => {
+          const {
             name,
             location: { lat: latitude, lng: longitude },
             score,
             id,
-            categories: [{ shortName }],
-            category,
-          }) =>
+          } = venue;
+          const _category = venue.category
+            ? venue.category
+            : venue.categories[0].shortName;
+          return (
             <MapView.Marker
               key={id}
               title={name}
-              description={`${category
-                ? category
-                : shortName} - ${score} points`}
+              description={`${_category} - ${score} points`}
               coordinate={{
                 latitude,
                 longitude,
               }}
               pinColor="red"
             />
-        )}
+          );
+        })}
         {nearby.map(
           ({
             name,

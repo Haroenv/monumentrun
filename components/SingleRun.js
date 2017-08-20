@@ -29,19 +29,19 @@ export default class SingleRun extends Component {
   };
 
   render() {
+    const { run } = this.props;
+
     return (
       <RunProvider
-        id={this.props.run}
+        id={run}
         render={props =>
           <ScrollView style={{ flex: 1 }}>
             <Run {...props} style={{ height: 400 }} />
             <View>
               <Text>Venues visited</Text>
-              {this.props.venues.map(venue =>
-                <Venue key={venue.id} {...venue} />
-              )}
+              {props.venues.map(venue => <Venue key={venue.id} {...venue} />)}
             </View>
-            {/* <VenueList venues={this.props.venues} /> */}
+            {/* <VenueList venues={props.venues} /> */}
           </ScrollView>}
       />
     );
