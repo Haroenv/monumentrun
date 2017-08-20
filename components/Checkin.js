@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { ImagePicker, Permissions } from 'expo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const uploadImage = (uri: string) => console.warn('uploading', uri);
+import { uploadFile } from '../helpers/files';
 
 export default class Checkin extends Component {
   props: {
@@ -12,7 +12,7 @@ export default class Checkin extends Component {
   };
 
   _snapPicture = async () => {
-    const { isNear = true } = this.props;
+    const { isNear } = this.props;
     if (!isNear) {
       alert("Get a bit closer, you're too far away now 🏃🏿");
     } else {
@@ -20,15 +20,23 @@ export default class Checkin extends Component {
       if (status !== 'granted') {
         alert("you can't take pictures without permission 🤔");
       }
-      const { cancelled, uri } = await ImagePicker.launchCameraAsync();
+      const { cancelled, base64 } = await ImagePicker.launchCameraAsync({
+        base64: true,
+      });
       if (!cancelled) {
-        uploadImage(uri);
+        const run = '-KrzN1IaBayODr20nung';
+        const venue = { id: '57206cc1498ea8f3570ce81c' };
+        uploadFile({
+          file: base64,
+          venue,
+          run,
+        });
       }
     }
   };
 
   render() {
-    const { isNear = true } = this.props;
+    const { isNear } = this.props;
     const message = isNear ? 'Snap a picture' : 'Get closer';
 
     return (
