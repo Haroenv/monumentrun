@@ -24,7 +24,7 @@ export default class Run extends Component {
 
     return (
       <MapView
-        style={{ flex: 1, ...style }}
+        style={[{ flex: 1 }, style]}
         customMapStyle={customMapStyle}
         showsUserLocation={true}
         userLocationAnnotationTitle={'Running here'}

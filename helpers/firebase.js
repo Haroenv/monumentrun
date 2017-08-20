@@ -1,5 +1,7 @@
-import firebase from 'firebase';
+// @flow
 
+import firebase from 'firebase';
+import type { LatLng } from './location';
 const config = {
   apiKey: 'AIzaSyA6vOOiI1nl6gmtFuIPlCUZiZMTC_XUGBo',
   authDomain: 'monumentrun-1cc39.firebaseapp.com',
@@ -57,3 +59,38 @@ export const getUserPicture = (uid: string): Promise<string> =>
     .once('value')
     .then(s => s.val())
     .catch(() => {});
+
+export function createRun({ uid, name }: { uid: string, name: string }) {
+  const date = new Date().toISOString();
+
+  const runId = ref
+    .child('runs')
+    .push({ name, score: 0, history: [], venues: [], date, uid }).key;
+
+  ref
+    .child(`users/${uid}`)
+    .once('value')
+    .then(s => s.val())
+    .then(s =>
+      ref
+        .child(`users/${uid}`)
+        .set({ ...s, name, runs: { ...s.runs, [runId]: { score: 0, date } } })
+    );
+  return runId;
+}
+
+export async function addHistory({
+  run,
+  latitude,
+  longitude,
+}: {
+  run: string,
+  latitude: number,
+  longitude: number,
+}) {
+  const s = await ref.child(`runs/${run}/history`).once('value');
+  const history: Array<LatLng> = s.val() || [];
+  return ref
+    .child(`runs/${run}/history`)
+    .set([...history, [longitude, latitude]]);
+}

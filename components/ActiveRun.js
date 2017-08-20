@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 
 import { TOTAL_TIME } from '../helpers/timing';
+import { getUser } from '../helpers/auth';
+import { createRun, addHistory } from '../helpers/firebase';
 import LocationProvider from './LocationProvider';
 import RunProvider from './RunProvider';
 import Run from './Run';
@@ -63,11 +65,26 @@ export default class ActiveRun extends Component {
     navigate: string => void,
   };
 
+  state: {
+    run?: string,
+    secondsPassed: number,
+    finished: boolean,
+    user?: {
+      displayName: string,
+      uid: string,
+    },
+  };
+
   state = {
     run: undefined,
     secondsPassed: 0,
     finished: false,
+    user: null,
   };
+
+  componentDidMount() {
+    getUser(user => this.setState(s => ({ ...s, user })));
+  }
 
   _tick = () => {
     this.setState(state => {
@@ -85,14 +102,28 @@ export default class ActiveRun extends Component {
     });
   };
 
+  _onMove = ({ latitude, longitude }) => {
+    const { run } = this.state;
+    if (run === undefined) {
+      return;
+    }
+    addHistory({ run, latitude, longitude });
+  };
+
   _startRun = () => {
-    this.setState({ run: '-KnZ1p-Vm6LzDoMnUj-t' });
+    const { user } = this.state;
+    if (user === null) {
+      throw new Error(`not logged in; you can't start`);
+    }
+    const { displayName: name, uid } = user;
+    const run = createRun({ name, uid });
+    this.setState({ run });
     this.timer = setInterval(this._tick, 1000);
   };
 
   _stopRun = () => {
-    this.setState({ run: '-KnZ1p-Vm6LzDoMnUj-t' });
     clearInterval(this.timer);
+    this.setState({ finished: true });
   };
 
   render() {
@@ -101,6 +132,7 @@ export default class ActiveRun extends Component {
 
     return (
       <LocationProvider
+        onMove={this._onMove}
         render={location =>
           run
             ? <RunProvider

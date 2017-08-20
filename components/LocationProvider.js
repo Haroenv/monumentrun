@@ -1,6 +1,7 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
+import type React from 'react';
 import { Location, Permissions } from 'expo';
 import { getVenues, FOURSQUARE_CATEGORIES } from '../helpers/foursquare';
 import type { VenueType } from '../helpers/foursquare';
@@ -21,12 +22,12 @@ type State = {
   location?: LocationData,
   venues: VenueType[],
   errorMessage?: 'Permission to access location was denied',
-  timestamp: number,
 };
 
 export default class LocationProvider extends Component {
   props: {
-    render: State => React.Component,
+    render: State => React.Component<*, *, *>,
+    onMove?: ({ latitude: number, longitude: number }) => void,
   };
   state: State;
   state = {
@@ -52,8 +53,12 @@ export default class LocationProvider extends Component {
   }
 
   _updateLocation = async location => {
+    const { onMove } = this.props;
     this.setState(s => ({ ...s, location }));
     const { latitude, longitude } = location.coords;
+    if (typeof onMove === 'function') {
+      onMove({ latitude, longitude });
+    }
 
     const nearby = await getVenues({
       latitude,
@@ -81,6 +86,7 @@ export default class LocationProvider extends Component {
 
   render() {
     const { render } = this.props;
+    // $FlowFixMe weird typing here
     return render(this.state);
   }
 }
