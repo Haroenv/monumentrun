@@ -3,8 +3,6 @@ import { firebaseImages } from './firebase';
 const atob = (input: string): string => {
   const chars =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-  console.log(input);
   const str = input.replace(/=+$/, '');
   let output = '';
 
@@ -39,15 +37,15 @@ const convertToByteArray = input => {
 
 export const uploadFile = ({
   run,
-  venue: { id },
+  venue,
   file,
 }: {
   run: string,
-  venue: { id: string },
+  venue: string,
   file: string,
 }) => {
   try {
-    const ref = firebaseImages({ run, venue: id });
+    const ref = firebaseImages({ run, venue });
     const uploadTask = ref.put(convertToByteArray(file), {
       contentType: 'image/jpeg',
     });

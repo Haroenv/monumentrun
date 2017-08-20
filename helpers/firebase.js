@@ -2,6 +2,7 @@
 
 import firebase from 'firebase';
 import type { LatLng } from './location';
+import type { VenueType } from './foursquare';
 const config = {
   apiKey: 'AIzaSyA6vOOiI1nl6gmtFuIPlCUZiZMTC_XUGBo',
   authDomain: 'monumentrun-1cc39.firebaseapp.com',
@@ -93,4 +94,24 @@ export async function addHistory({
   return ref
     .child(`runs/${run}/history`)
     .set([...history, [longitude, latitude]]);
+}
+
+export async function visitVenue({
+  run,
+  venue,
+}: {
+  run: string,
+  venue: VenueType,
+}) {
+  const venues: Array<LatLng> =
+    (await ref.child(`runs/${run}/venues`).once('value')).val() || [];
+  const score: number =
+    (await ref.child(`runs/${run}/score`).once('value')).val() || 0;
+  const uid: string = (await ref.child(`runs/${run}/uid`).once('value')).val();
+
+  const newScore = score + venue.score;
+
+  ref.child(`runs/${run}/venues`).set([...venues, venue]);
+  ref.child(`runs/${run}/score`).set(newScore);
+  ref.child(`users/${uid}/runs/${run}/score`).set(newScore);
 }

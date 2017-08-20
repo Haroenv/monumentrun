@@ -102,6 +102,7 @@ class Bar extends Component {
     finished: boolean,
     navigate: string => void,
     name: string,
+    run: string,
   };
 
   render() {
@@ -112,8 +113,18 @@ class Bar extends Component {
       finished,
       navigate,
       name: runner,
+      run,
     } = this.props;
     const { name, score, distance, category } = first;
+
+    const _first = {
+      ...first,
+      location: {
+        lat: first.location.latitude,
+        lng: first.location.longitude,
+      },
+    };
+
     if (finished) {
       return <FinishedRun navigate={navigate} name={runner} />;
     }
@@ -131,7 +142,7 @@ class Bar extends Component {
         <Text>
           {category}
         </Text>
-        <Checkin isNear={isNear(distance)} />
+        <Checkin isNear={isNear(distance)} run={run} venue={_first} />
         <Button title="stop" onPress={onStop} />
         <Text>
           {secondsPassed}

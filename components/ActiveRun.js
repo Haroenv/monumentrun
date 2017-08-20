@@ -20,6 +20,7 @@ class Running extends Component {
     onStop: void => void,
     finished: boolean,
     secondsPassed: number,
+    run: string,
   };
 
   onRequestLogin = () => {
@@ -36,6 +37,7 @@ class Running extends Component {
       onStop,
       finished,
       secondsPassed,
+      run,
     } = this.props;
 
     return (
@@ -54,6 +56,7 @@ class Running extends Component {
             onStop={onStop}
             finished={finished}
             secondsPassed={secondsPassed}
+            run={run}
           />}
       </View>
     );
@@ -146,6 +149,7 @@ export default class ActiveRun extends Component {
                     onStop={this._stopRun}
                     secondsPassed={secondsPassed}
                     finished={finished}
+                    run={run}
                   />}
               />
             : <Running

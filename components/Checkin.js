@@ -3,16 +3,20 @@ import { View, Text } from 'react-native';
 import { ImagePicker, Permissions } from 'expo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import type { VenueType } from '../helpers/foursquare';
 import { uploadFile } from '../helpers/files';
+import { visitVenue } from '../helpers/firebase';
 
 export default class Checkin extends Component {
   props: {
     isNear: boolean,
     errorMessage?: string,
+    run: string,
+    venue: VenueType,
   };
 
   _snapPicture = async () => {
-    const { isNear } = this.props;
+    const { isNear, run, venue } = this.props;
     if (!isNear) {
       alert("Get a bit closer, you're too far away now 🏃🏿");
     } else {
@@ -24,12 +28,14 @@ export default class Checkin extends Component {
         base64: true,
       });
       if (!cancelled) {
-        const run = '-KrzN1IaBayODr20nung';
-        const venue = { id: '57206cc1498ea8f3570ce81c' };
         uploadFile({
           file: base64,
-          venue,
+          venue: venue.id,
           run,
+        });
+        visitVenue({
+          run,
+          venue,
         });
       }
     }
