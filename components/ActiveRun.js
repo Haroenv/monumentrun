@@ -20,6 +20,10 @@ class Running extends Component {
     secondsPassed: number,
   };
 
+  onRequestLogin = () => {
+    this.props.navigate('user');
+  };
+
   render() {
     const {
       runInfo,
@@ -35,7 +39,11 @@ class Running extends Component {
     return (
       <View style={{ flex: 1 }}>
         <Run {...runInfo} nearby={location.nearby} />
-        {!running && <Intro onPress={onRequestStart} />}
+        {!running &&
+          <Intro
+            onRequestStart={onRequestStart}
+            onRequestLogin={this.onRequestLogin}
+          />}
         {running &&
           <BottomBar
             navigate={navigate}

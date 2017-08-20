@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet, Dimensions } from 'react-native';
+import { getUser } from '../helpers/auth';
 
 function getRunner() {
   const runners = [
@@ -61,12 +62,18 @@ const startRun = StyleSheet.create({
 
 export default class Intro extends Component {
   props: {
-    onPress: void => void,
+    onRequestStart: void => void,
+    onRequestLogin: void => void,
   };
   state = {
     runner: getRunner(),
     changedRunner: 0,
+    user: null,
   };
+
+  componentDidMount() {
+    getUser(user => this.setState(s => ({ ...s, user })));
+  }
 
   _newRunner = () =>
     this.setState(s => ({
@@ -76,8 +83,8 @@ export default class Intro extends Component {
     }));
 
   render() {
-    const { onPress } = this.props;
-    const { runner, changedRunner } = this.state;
+    const { onRequestStart, onRequestLogin } = this.props;
+    const { runner, changedRunner, user } = this.state;
     return (
       <View style={startRun.container}>
         <Text style={startRun.heading}>Get ready for 15 minutes of fun</Text>
@@ -99,7 +106,17 @@ export default class Intro extends Component {
               stop n{'o'.repeat(changedRunner / 5)}w
             </Text>}
         </View>
-        <Button title="Start" onPress={onPress} style={startRun.button} />
+        {user === null
+          ? <Button
+              title="login"
+              onPress={onRequestLogin}
+              style={startRun.button}
+            />
+          : <Button
+              title="Start"
+              onPress={onRequestStart}
+              style={startRun.button}
+            />}
       </View>
     );
   }
