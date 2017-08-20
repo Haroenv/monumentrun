@@ -30,7 +30,7 @@ export default class RunProvider extends Component {
     venues: [],
   };
 
-  runListener = null;
+  runListener = () => undefined;
 
   async componentWillMount() {
     const listener = await this._subscribeRun(this.props.id);
@@ -47,10 +47,10 @@ export default class RunProvider extends Component {
     }
   }
 
-  componentWillReceiveProps(newProps: { run: string }) {
+  componentWillReceiveProps(newProps: { id: string }) {
     if (newProps.id !== this.props.id) {
       this._removeListener();
-      this.runListener = this.subscribe(newProps.run);
+      this.runListener = this._subscribeRun(newProps.id);
     }
   }
 
